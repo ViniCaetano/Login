@@ -30,4 +30,11 @@ while True:
             print('Senha incorreta.')
         elif valores ['usuario'] != 'teste':
             print('Usuário Incorreto/Não Cadastrado')
-    
+    if eventos == 'Cadastrar':
+        cursor = conexao.cursor() 
+        Usuario = valores ['usuario']
+        Senha = valores ['senha']
+        comando = f"""INSERT INTO Usuários(Usuário_Nome, Usuário_Senha)VALUES ('{Usuario}', '{Senha}')"""
+        cursor.execute(comando)
+        cursor.commit()
+        print('Cadastro realizado! Efetue o Login.')
