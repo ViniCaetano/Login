@@ -24,11 +24,22 @@ while True:
     if eventos == sg.WINDOW_CLOSED:
         break
     if eventos == 'Entrar':
-        if valores ['usuario'] == 'teste' and valores ['senha'] == '123456':
-            print('Bem vindo!')
-        elif valores ['usuario'] == 'teste' and valores ['senha'] != '123456':
+        cursor = conexao.cursor()
+        Usuario = valores ['usuario']
+        cusuario = f"""SELECT Usuário_Nome FROM Usuários WHERE Usuário_Nome = '{Usuario}'"""
+        cursor.execute(cusuario)
+        cusuario = cusuario[56:-1]
+        if valores ['usuario'] == cusuario:
+            cursos = conexao.cursor()
+            Senha = valores ['senha']
+            csenha = f"""SELECT Usuário_Senha FROM Usuários WHERE Usuário_Senha = '{Senha}'"""
+            cursor.execute(csenha)
+            csenha = csenha[58:-1]
+            if valores ['senha'] == csenha:
+                print('Bem vindo!')
+        elif valores ['usuario'] == cusuario and valores ['senha'] != csenha:
             print('Senha incorreta.')
-        elif valores ['usuario'] != 'teste':
+        elif valores ['usuario'] != cusuario:
             print('Usuário Incorreto/Não Cadastrado')
     if eventos == 'Cadastrar':
         cursor = conexao.cursor() 
