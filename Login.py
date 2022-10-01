@@ -24,23 +24,24 @@ while True:
     if eventos == sg.WINDOW_CLOSED:
         break
     if eventos == 'Entrar':
-        Usuario = valores ['usuario']
-        Senha = valores ['senha']
         cursor = conexao.cursor()
         select = """SELECT * FROM Usuários"""
         cursor.execute(select)
-        dados = cursor.fetchall()
-        if valores ['usuario'] in dados[0] and valores ['senha'] in dados[0]:
+        usuarios = [x for x, y, z in cursor.fetchall()]
+        cursor.execute(select)
+        codigos = [z for x, y, z in cursor.fetchall()]
+        if valores ['usuario'] in usuarios and valores ['usuario'] + valores ['senha'] in codigos:
             print('Bem vindo!')
-        elif valores ['usuario'] in dados[0] and valores ['senha'] not in dados[0]:
+        elif valores ['usuario'] in usuarios and valores ['usuario'] + valores ['senha'] not in codigos:
             print('Senha incorreta.')
-        elif valores ['usuario'] not in dados[0]:
+        else:
             print('Usuário Incorreto/Não Cadastrado')
     if eventos == 'Cadastrar':
         cursor = conexao.cursor() 
         Usuario = valores ['usuario']
         Senha = valores ['senha']
-        comando = f"""INSERT INTO Usuários(Usuário_Nome, Usuário_Senha)VALUES ('{Usuario}', '{Senha}')"""
+        Cod = valores ['usuario'] + valores ['senha']
+        comando = f"""INSERT INTO Usuários(Usuário_Nome, Usuário_Senha, Usuário_Cod)VALUES ('{Usuario}', '{Senha}', '{Cod}')"""
         cursor.execute(comando)
         cursor.commit()
         print('Cadastro realizado! Efetue o Login.')
